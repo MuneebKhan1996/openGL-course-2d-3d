@@ -87,6 +87,8 @@ int main() {
     cout << "OpenGL Error: " << err << endl;
   }
 
+  GLuint uniID = glGetUniformLocation(shaderProgram.ID, "scale");
+
   // Main while loop
   while (!glfwWindowShouldClose(window)) {
     // Specify the color of the background
@@ -95,6 +97,7 @@ int main() {
     glClear(GL_COLOR_BUFFER_BIT);
     // Tell OpenGL which Shader Program we want to use
     shaderProgram.Activate();
+    glUniform1f(uniID, 0.5f);
     // Bind the VAO so OpenGL knows to use it
     VAO1.Bind();
     // Draw primitives, number of indices, datatype of indices, index of indices
