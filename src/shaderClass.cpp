@@ -1,4 +1,4 @@
-#include "shaderClass.h"
+#include "./headers/shaderClass.h"
 using namespace std;
 
 string get_file_contents(const char *filename) {
@@ -26,11 +26,31 @@ Shader::Shader(const char *vertexFile, const char *fragmentFile) {
   glShaderSource(vertexShader, 1, &vertexSource, NULL);
   glCompileShader(vertexShader);
 
+  // Check if vertex shader compiled successfully
+  GLint success;
+  glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+  if (!success) {
+    char infoLog[512];
+    glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+    cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << endl;
+  } else {
+    cout << "working" << endl;
+  }
+
   GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
   glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
   glCompileShader(fragmentShader);
 
+  // Check if fragment shader compiled successfully
+  glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+  if (!success) {
+    char infoLog[512];
+    glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+    cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << endl;
+  }
+
   ID = glCreateProgram();
+  cout << "id here: " << ID << endl;
   glAttachShader(ID, vertexShader);
   glAttachShader(ID, fragmentShader);
   glLinkProgram(ID);

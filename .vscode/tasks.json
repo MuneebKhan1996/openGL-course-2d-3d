@@ -7,16 +7,21 @@
             "args": [
                 "-g",
                 "-std=c++17",
+                "-I${workspaceFolder}/src/headers",
                 "-I${workspaceFolder}/include",
                 "-L${workspaceFolder}/lib",
                 "${workspaceFolder}/src/main.cpp",
                 "${workspaceFolder}/src/glad.c",
+                "${workspaceFolder}/src/shaderClass.cpp",
+                "${workspaceFolder}/src/VAO.cpp",
+                "${workspaceFolder}/src/VBO.cpp",
+                "${workspaceFolder}/src/EBO.cpp",
                 "-lglfw3dll",
                 "-o",
                 "${workspaceFolder}/cutable.exe"
             ],
             "options": {
-                "cwd": "${fileDirname}"
+                "cwd": "${workspaceFolder}"
             },
             "problemMatcher": [
                 "$gcc"
