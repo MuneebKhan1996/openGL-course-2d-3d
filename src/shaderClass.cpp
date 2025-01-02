@@ -27,36 +27,25 @@ Shader::Shader(const char *vertexFile, const char *fragmentFile) {
   glCompileShader(vertexShader);
   compileErrors(vertexShader, "VERTEX");
 
-  // Check if vertex shader compiled successfully
-  GLint success;
-  glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-  if (!success) {
-    char infoLog[512];
-    glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-    cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << endl;
-  } else {
-    cout << "working" << endl;
-  }
-
   GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
   glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
   glCompileShader(fragmentShader);
   compileErrors(fragmentShader, "FRAGMENT");
 
-  // Check if fragment shader compiled successfully
-  glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-  if (!success) {
-    char infoLog[512];
-    glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-    cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << endl;
-  }
-
   ID = glCreateProgram();
-  cout << "id here: " << ID << endl;
   glAttachShader(ID, vertexShader);
   glAttachShader(ID, fragmentShader);
   glLinkProgram(ID);
-  compileErrors(ID, "PROGRAM");
+
+  GLint success;
+  glGetProgramiv(ID, GL_LINK_STATUS, &success);
+  if (!success) {
+    char infoLog[512];
+    glGetProgramInfoLog(ID, 512, NULL, infoLog);
+    cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << endl;
+  } else {
+    cout << "Shader program linked successfully!" << endl;
+  }
 
   glDeleteShader(vertexShader);
   glDeleteShader(fragmentShader);
@@ -76,10 +65,10 @@ void Shader::compileErrors(unsigned int shader, const char *type) {
       cout << "SHADER_COMPILATION_ERROR for:" << type << "\n" << endl;
     }
   } else {
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &hasCompiled);
+    glGetProgramiv(shader, GL_COMPILE_STATUS, &hasCompiled);
     if (hasCompiled == GL_FALSE) {
       glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-      cout << "SHADER_COMPILATION_ERROR for:" << type << "\n" << endl;
+      cout << "PROGRAM_LINKING_ERROR for:" << type << "\n" << endl;
     }
   }
 }

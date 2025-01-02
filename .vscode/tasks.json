@@ -9,6 +9,7 @@
                 "-std=c++17",
                 "-I${workspaceFolder}/src/headers",
                 "-I${workspaceFolder}/include",
+                "-I${workspaceFolder}/include/stb",
                 "-L${workspaceFolder}/lib",
                 "${workspaceFolder}/src/main.cpp",
                 "${workspaceFolder}/src/glad.c",
@@ -16,6 +17,7 @@
                 "${workspaceFolder}/src/VAO.cpp",
                 "${workspaceFolder}/src/VBO.cpp",
                 "${workspaceFolder}/src/EBO.cpp",
+                "${workspaceFolder}/src/Texture.cpp",
                 "-lglfw3dll",
                 "-o",
                 "${workspaceFolder}/cutable.exe"
@@ -24,7 +26,7 @@
                 "cwd": "${workspaceFolder}"
             },
             "problemMatcher": [
-                "$gcc"
+                "$gcc",
             ],
             "group": {
                 "kind": "build",
